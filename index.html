@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow Automation</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ⚡
+            </div>
+
+            <div>
+                <h2>TaskFlow</h2>
+                <span>Automation Hub</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            AUTOMATION
+        </div>
+
+
+        <button class="nav-btn active"
+                onclick="selectTask('move')"
+                id="moveNav">
+
+            <span class="nav-icon">📁</span>
+
+            <div>
+                <strong>Move JPG Files</strong>
+                <small>Organize images</small>
+            </div>
+
+        </button>
+
+
+        <button class="nav-btn"
+                onclick="selectTask('email')"
+                id="emailNav">
+
+            <span class="nav-icon">✉️</span>
+
+            <div>
+                <strong>Email Extractor</strong>
+                <small>Find email addresses</small>
+            </div>
+
+        </button>
+
+
+        <button class="nav-btn"
+                onclick="selectTask('scrape')"
+                id="scrapeNav">
+
+            <span class="nav-icon">🌐</span>
+
+            <div>
+                <strong>Web Scraper</strong>
+                <small>Extract page title</small>
+            </div>
+
+        </button>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>System Online</strong>
+                    <small>All services operational</small>
+                </div>
+
+            </div>
+
+            <div class="version">
+                TaskFlow v1.0
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1 id="pageTitle">
+                    Move JPG Files
+                </h1>
+
+                <p id="pageDescription">
+                    Automatically organize JPG images between folders.
+                </p>
+
+            </div>
+
+
+            <div class="server">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    Flask Server
+                </span>
+
+                <span class="server-port">
+                    :5000
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+
+            <!-- MOVE PANEL -->
+
+            <div class="task-panel active-panel"
+                 id="movePanel">
+
+                <div class="panel-header">
+
+                    <div class="panel-icon">
+                        📁
+                    </div>
+
+                    <div>
+
+                        <h2>Move JPG Files</h2>
+
+                        <p>
+                            Select a source and destination folder.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            SOURCE FOLDER
+                        </label>
+
+                        <input
+                            type="text"
+                            id="sourceFolder"
+                            placeholder="C:\Users\YourName\Pictures"
+                        >
+
+                    </div>
+
+
+                    <div class="arrow">
+                        →
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            DESTINATION FOLDER
+                        </label>
+
+                        <input
+                            type="text"
+                            id="destinationFolder"
+                            placeholder="C:\Users\YourName\JPG"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button class="run-btn"
+                        onclick="moveJpgs()">
+
+                    <span>▶</span>
+
+                    Run Automation
+
+                </button>
+
+            </div>
+
+
+            <!-- EMAIL PANEL -->
+
+            <div class="task-panel"
+                 id="emailPanel">
+
+                <div class="panel-header">
+
+                    <div class="panel-icon">
+                        ✉️
+                    </div>
+
+                    <div>
+
+                        <h2>Email Extractor</h2>
+
+                        <p>
+                            Find email addresses from any text.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        TEXT INPUT
+                    </label>
+
+                    <textarea
+                        id="emailText"
+                        placeholder="Paste text containing email addresses here...
+
+Example:
+Contact john@example.com
+Support support@company.com
+Admin admin@test.org"></textarea>
+
+                </div>
+
+
+                <button class="run-btn"
+                        onclick="extractEmails()">
+
+                    <span>▶</span>
+
+                    Extract Emails
+
+                </button>
+
+            </div>
+
+
+            <!-- SCRAPER PANEL -->
+
+            <div class="task-panel"
+                 id="scrapePanel">
+
+                <div class="panel-header">
+
+                    <div class="panel-icon">
+                        🌐
+                    </div>
+
+                    <div>
+
+                        <h2>Web Scraper</h2>
+
+                        <p>
+                            Fetch a webpage and extract its title.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        WEBSITE URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="websiteUrl"
+                        placeholder="https://example.com"
+                    >
+
+                </div>
+
+
+                <button class="run-btn"
+                        onclick="scrapeTitle()">
+
+                    <span>▶</span>
+
+                    Scrape Website
+
+                </button>
+
+            </div>
+
+
+            <!-- CONSOLE -->
+
+            <div class="console-card">
+
+                <div class="console-header">
+
+                    <div class="console-title">
+
+                        <span class="terminal-icon">
+                            >
+                        </span>
+
+                        <strong>
+                            Automation Console
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        class="clear-btn"
+                        onclick="clearConsole()">
+
+                        Clear
+
+                    </button>
+
+                </div>
+
+
+                <div id="console"
+                     class="console">
+
+                    <div class="console-line system">
+                        <span>[SYSTEM]</span>
+                        TaskFlow Automation initialized.
+                    </div>
+
+                    <div class="console-line">
+                        <span>[READY]</span>
+                        Waiting for your command...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULT CARD -->
+
+            <div class="result-card"
+                 id="resultCard">
+
+                <div class="result-header">
+
+                    <span>RESULT</span>
+
+                    <span id="resultCount">
+                        0 items
+                    </span>
+
+                </div>
+
+                <div id="resultContent">
+                    No results yet.
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
